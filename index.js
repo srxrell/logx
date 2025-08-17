@@ -54,15 +54,18 @@ export function createLogger({
 
   let metaStr = '';
   if (entry.meta && entry.meta.length) {
-    const metaJSON = JSON.stringify(entry.meta, null, 2); // красивый отступ
+    const metaJSON = JSON.stringify(entry.meta, null, 2);
     const lines = metaJSON.split('\n');
-    metaStr = '\n╭─ Meta ──────────────────────────\n';
-    metaStr += lines.map(line => `│ ${line}`).join('\n');
-    metaStr += '\n╰─────────────────────────────────';
+    const maxLen = Math.max(...lines.map(l => l.length));
+    const top = '╭─ Meta ' + '─'.repeat(maxLen) + '─╮';
+    const bottom = '╰' + '─'.repeat(maxLen + 8) + '╯'; // 8 = длина '╭─ Meta '
+    const middle = lines.map(line => `│ ${line}${' '.repeat(maxLen - line.length)} │`).join('\n');
+    metaStr = `\n${top}\n${middle}\n${bottom}`;
   }
 
   return `${colors[entry.level] ?? ''}${icons[entry.level] ?? ''} ${entry.level.toUpperCase()}:${colorReset} ${entry.message}${metaStr}`;
 }
+
 
   function formatJSON(entry) {
     const meta = entry.meta ? applyRedact(entry.meta) : [];
