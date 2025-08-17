@@ -36,35 +36,27 @@ export function createLogger({
   }
 
  function formatPretty(entry) {
-  const icons = {
-    trace: '🔍',
-    debug: '🐛',
-    info: '💡',
-    warn: '⚠️',
-    error: '❌',
-  };
-  const colors = {
-    trace: '\x1b[37m',
-    debug: '\x1b[36m',
-    info: '\x1b[34m',
-    warn: '\x1b[33m',
-    error: '\x1b[31m',
-  };
+  const icons = { trace: '🔍', debug: '🐛', info: '💡', warn: '⚠️', error: '❌' };
+  const colors = { trace: '\x1b[37m', debug: '\x1b[36m', info: '\x1b[34m', warn: '\x1b[33m', error: '\x1b[31m' };
   const colorReset = '\x1b[0m';
 
   let metaStr = '';
   if (entry.meta && entry.meta.length) {
     const metaJSON = JSON.stringify(entry.meta, null, 2);
     const lines = metaJSON.split('\n');
-    const maxLen = Math.max(...lines.map(l => l.length));
+
+    // ширина учитывает боковые символы и пробелы
+    const maxLen = Math.max(...lines.map(l => l.length)) + 2; // +2 для пробелов слева и справа
     const top = '╭─ Meta ' + '─'.repeat(maxLen) + '─╮';
     const bottom = '╰' + '─'.repeat(maxLen + 8) + '╯'; // 8 = длина '╭─ Meta '
+
     const middle = lines.map(line => `│ ${line}${' '.repeat(maxLen - line.length)} │`).join('\n');
     metaStr = `\n${top}\n${middle}\n${bottom}`;
   }
 
   return `${colors[entry.level] ?? ''}${icons[entry.level] ?? ''} ${entry.level.toUpperCase()}:${colorReset} ${entry.message}${metaStr}`;
 }
+
 
 
   function formatJSON(entry) {
