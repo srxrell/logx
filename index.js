@@ -45,17 +45,24 @@ export function createLogger({
     const metaJSON = JSON.stringify(entry.meta, null, 2);
     const lines = metaJSON.split('\n');
 
-    // ширина учитывает боковые символы и пробелы
-    const maxLen = Math.max(...lines.map(l => l.length)) + 2; // +2 для пробелов слева и справа
-    const top = '╭─ Meta ' + '─'.repeat(maxLen) + '─╮';
-    const bottom = '╰' + '─'.repeat(maxLen + 8) + '╯'; // 8 = длина '╭─ Meta '
+    // Находим максимальную длину строки
+    const maxLineLen = Math.max(...lines.map(l => l.length));
 
-    const middle = lines.map(line => `│ ${line}${' '.repeat(maxLen - line.length)} │`).join('\n');
+    // Формируем верхнюю рамку
+    const top = '╭─ Meta ' + '─'.repeat(maxLineLen + 2) + '─╮'; // +2 — для пробелов слева/справа
+    const bottom = '╰' + '─'.repeat(maxLineLen + 10) + '╯'; // +10 — длина '╭─ Meta '
+
+    // Формируем строки с отступами
+    const middle = lines
+      .map(line => `│ ${line}${' '.repeat(maxLineLen - line.length)} │`)
+      .join('\n');
+
     metaStr = `\n${top}\n${middle}\n${bottom}`;
   }
 
   return `${colors[entry.level] ?? ''}${icons[entry.level] ?? ''} ${entry.level.toUpperCase()}:${colorReset} ${entry.message}${metaStr}`;
 }
+
 
 
 
