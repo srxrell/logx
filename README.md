@@ -18,9 +18,9 @@
 ## 📦 Установка
 
 
-```npm install @logx/logx```
+```npm install @serell_vorne/logx```
 # или
-```yarn add @logx/logx```
+```yarn add @serell_vorne/logx```
 
 # Быстрый старт
 
