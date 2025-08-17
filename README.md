@@ -1,9 +1,9 @@
 # LogX
 
-[![npm version](https://img.shields.io/npm/v/@logx/logx)](https://www.npmjs.com/package/@logx/logx)
+[![npm version](https://img.shields.io/npm/v/@logx/logx)](https://www.npmjs.com/package/@serell_vorne/logx)
 [![License](https://img.shields.io/npm/l/@logx/logx)](LICENSE)
 [![Build Status](https://img.shields.io/github/actions/workflow/status/srxrell/logx/nodejs.yml)](https://github.com/srxrell/logx/actions)
-[![Downloads](https://img.shields.io/npm/dt/@logx/logx)](https://www.npmjs.com/package/@logx/logx)
+[![Downloads](https://img.shields.io/npm/dt/@logx/logx)](https://www.npmjs.com/package/@serell_vorne/logx)
 
 **LogX** — современный, гибкий и лёгкий логгер для Node.js и браузера с поддержкой:
 - Уровней логирования: `trace`, `debug`, `info`, `warn`, `error`, `fatal`
