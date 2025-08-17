@@ -1,7 +1,7 @@
 // index.js
-import consoleTransport from './lib/transports/console.js';
-import fileTransport from './lib/transports/file.js';
-import serverTransport from './lib/transports/server.js';
+import consoleTransport from './transports/console.js';
+import fileTransport from './transports/file.js';
+import serverTransport from './transports/server.js';
 
 export const LEVELS = {
   trace: 10,
@@ -35,29 +35,34 @@ export function createLogger({
     });
   }
 
-  function formatPretty(entry) {
-    const icons = {
-      trace: '🔍',
-      debug: '🐛',
-      info: '💡',
-      warn: '⚠️',
-      error: '❌',
-    };
-    const colors = {
-      trace: '\x1b[37m',
-      debug: '\x1b[36m',
-      info: '\x1b[34m',
-      warn: '\x1b[33m',
-      error: '\x1b[31m',
-    };
-    const colorReset = '\x1b[0m';
+ function formatPretty(entry) {
+  const icons = {
+    trace: '🔍',
+    debug: '🐛',
+    info: '💡',
+    warn: '⚠️',
+    error: '❌',
+  };
+  const colors = {
+    trace: '\x1b[37m',
+    debug: '\x1b[36m',
+    info: '\x1b[34m',
+    warn: '\x1b[33m',
+    error: '\x1b[31m',
+  };
+  const colorReset = '\x1b[0m';
 
-    let metaStr = entry.meta && entry.meta.length
-      ? JSON.stringify(entry.meta)
-      : '';
-
-    return `${colors[entry.level] ?? ''}${icons[entry.level] ?? ''} ${entry.level.toUpperCase()}:${colorReset} ${entry.message} ${metaStr}`;
+  let metaStr = '';
+  if (entry.meta && entry.meta.length) {
+    const metaJSON = JSON.stringify(entry.meta, null, 2); // красивый отступ
+    const lines = metaJSON.split('\n');
+    metaStr = '\n╭─ Meta ──────────────────────────\n';
+    metaStr += lines.map(line => `│ ${line}`).join('\n');
+    metaStr += '\n╰─────────────────────────────────';
   }
+
+  return `${colors[entry.level] ?? ''}${icons[entry.level] ?? ''} ${entry.level.toUpperCase()}:${colorReset} ${entry.message}${metaStr}`;
+}
 
   function formatJSON(entry) {
     const meta = entry.meta ? applyRedact(entry.meta) : [];
