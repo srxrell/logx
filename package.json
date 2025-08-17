@@ -1,0 +1,15 @@
+{
+  "name": "@logx/logx",
+  "version": "1.0.0",
+  "description": "Advanced logging for your Node.JS project",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "vitest"
+  },
+  "author": "Serell Vorne",
+  "license": "ISC",
+  "devDependencies": {
+    "vitest": "^3.2.4"
+  }
+}
